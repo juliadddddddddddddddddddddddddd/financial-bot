@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    application = Application.builder().token('7030384710:AAHMZq8L3MqlclUi5WE7QCeeVgWcan8SOJ4').build()
+    application = Application.builder().token('7031701033:AAFvF1ARw2Ag9A0qdIGYb17MHLsD843fQ0U').build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("income", income))
