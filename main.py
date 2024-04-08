@@ -8,7 +8,6 @@ from expenses_fun import expenses, staistics_expenses, show_expenses
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
 )
-
 logger = logging.getLogger(__name__)
 income_had = MessageHandler(filters.Text(['Доходы']), income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expenses)
