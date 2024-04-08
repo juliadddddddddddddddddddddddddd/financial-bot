@@ -8,7 +8,7 @@ def add_user(update, context):
     user_ = update.effective_user
     if not db_sess.query(User).filter(User.name.like(user_.mention_html())).first():
         user = User()
-        user.name = "user_.mention_html()"
+        user.name = f"{user_.mention_html()}"
         db_sess.add(user)
         db_sess.commit()
     cur_user = db_sess.query(User).filter(User.name.like(user_.mention_html())).first()
@@ -21,6 +21,7 @@ async def start(update, context):
         "Я бот-помощник для контроля финансов. Выбери опцию.",
         reply_markup=markup
     )
+    add_user(update, context)
 
 
 reply_keyboard = [['Доходы', 'Расходы'],
