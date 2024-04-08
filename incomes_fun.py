@@ -1,13 +1,13 @@
 from telegram import ReplyKeyboardMarkup
 
-reply_keyboard_income = [['/add_income', '/income_period']]
+reply_keyboard_income = [['Добавить доход', 'Доходы за определенный период']]
 markup_income = ReplyKeyboardMarkup(reply_keyboard_income, one_time_keyboard=False)
 
-reply_keyboard_income_period = [['/1 неделя', '/2 недели'],
-                                ['/месяц']]
+reply_keyboard_income_period = [['1 неделя', '2 недели'],
+                                ['Месяц']]
 markup_income_period = ReplyKeyboardMarkup(reply_keyboard_income_period, one_time_keyboard=False)
 
-reply_keyboard_add_income = [['/добавить доход']]
+reply_keyboard_add_income = [['Добавить доход:']]
 markup_add_income = ReplyKeyboardMarkup(reply_keyboard_add_income, one_time_keyboard=False)
 
 

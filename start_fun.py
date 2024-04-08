@@ -23,6 +23,6 @@ async def start(update, context):
     )
 
 
-reply_keyboard = [['/income', '/expenses'],
-                  ['/выбрать музыкальное сопровождение']]
+reply_keyboard = [['Доходы', 'Расходы'],
+                  ['Выбрать музыкальное сопровождение']]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)
