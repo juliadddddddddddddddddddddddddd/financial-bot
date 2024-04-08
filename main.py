@@ -27,10 +27,6 @@ def main():
     application.add_handler(income_had)
     application.add_handler(expense_had)
     application.add_handler(staistics_expenses_had)
-
-
-
-    application.add_handler(CommandHandler("staistics_expenses", staistics_expenses))
     db_session.global_init("db/money.db")
     application.run_polling()
 
