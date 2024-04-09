@@ -4,14 +4,14 @@ from data import db_session
 from data.users import User
 from data.incomes import Income
 import datetime
+from start_fun import markup
 
 reply_keyboard_income = [['Добавить доход', 'Доходы за определенный период']]
-markup_income = ReplyKeyboardMarkup(reply_keyboard_income, one_time_keyboard=False)
+markup_income = ReplyKeyboardMarkup(reply_keyboard_income, one_time_keyboard=True)
 
 reply_keyboard_income_period = [['1 неделя ', '2 недели '],
                                 ['Месяц ']]
-markup_income_period = ReplyKeyboardMarkup(reply_keyboard_income_period, one_time_keyboard=False)
-
+markup_income_period = ReplyKeyboardMarkup(reply_keyboard_income_period, one_time_keyboard=True)
 
 
 def add_income_bd(update, context):
@@ -32,7 +32,9 @@ async def add_income(update, context):
 
 async def add_income_answer(update, context):
     await update.message.reply_text(
-        f"Доход внесен в базу данных")
+        f"Доход внесен в базу данных",
+        reply_markup=markup
+    )
     add_income_bd(update, context)
     return ConversationHandler.END
 

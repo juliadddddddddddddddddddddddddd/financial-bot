@@ -3,6 +3,7 @@ from telegram.ext import ConversationHandler
 import datetime
 from data import db_session
 from data.statistics import Statistic
+from start_fun import markup
 from data.users import User
 from data.expenses import Expense
 from data.statistics import Statistic
@@ -37,7 +38,7 @@ def get_categories():
     but = []
     for i in buttons:
         but.append(i[0])
-    markup_staistics_expenses = ReplyKeyboardMarkup.from_column(but)
+    markup_staistics_expenses = ReplyKeyboardMarkup.from_column(but, one_time_keyboard=True)
     return markup_staistics_expenses
 
 
@@ -70,12 +71,14 @@ async def chose_category(update, context):
 
 async def add_expense_answer(update, context):
     await update.message.reply_text(
-        f"Расход внесен в базу данных")
+        f"Расход внесен в базу данных",
+        reply_markup=markup
+    )
     add_expense_bd(update, context)
     return ConversationHandler.END
 
 
 reply_keyboard_expenses = [['Статистика расходов', 'Посмотреть расходы', 'Добавить расходы']]
-markup_timer_expenses = ReplyKeyboardMarkup(reply_keyboard_expenses, one_time_keyboard=False)
+markup_timer_expenses = ReplyKeyboardMarkup(reply_keyboard_expenses, one_time_keyboard=True)
 reply_keyboard_show_expenses = [['1 неделя', '2 недели']]
-markup_show_expenses = ReplyKeyboardMarkup(reply_keyboard_show_expenses, one_time_keyboard=False)
+markup_show_expenses = ReplyKeyboardMarkup(reply_keyboard_show_expenses, one_time_keyboard=True)
