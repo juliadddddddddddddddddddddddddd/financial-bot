@@ -6,7 +6,6 @@ from data import db_session
 def add_user(update, context):
     db_sess = db_session.create_session()
     user_ = update.effective_user
-    print(user_.id)
     if not db_sess.query(User).filter(User.name.like(user_.id)).first():
         user = User()
         user.name = f"{user_.id}"

@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from data import db_session
 from incomes_fun import income, income_period, add_income, add_income_answer
 from start_fun import start
-from expenses_fun import expenses, staistics_expenses, show_expenses
+from expenses_fun import expenses, staistics_expenses, show_expenses, chose_category, add_expense, add_expense_answer
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
@@ -27,6 +27,13 @@ conv_handler_incomes = ConversationHandler(
         1: [MessageHandler(filters.TEXT, add_income_answer)]},
     fallbacks=[CommandHandler('stop', stop)]
 )
+conv_handler_expense = ConversationHandler(
+    entry_points=[MessageHandler(filters.Text(['Добавить расходы']), chose_category)],
+    states={
+        1: [MessageHandler(filters.TEXT, add_expense)],
+        2: [MessageHandler(filters.TEXT, add_expense_answer)]},
+    fallbacks=[CommandHandler('stop', stop)]
+)
 
 
 def main():
@@ -38,6 +45,7 @@ def main():
     application.add_handler(expense_had)
     application.add_handler(staistics_expenses_had)
     application.add_handler(conv_handler_incomes)
+    application.add_handler(conv_handler_expense)
     db_session.global_init("db/money.db")
     application.run_polling()
 

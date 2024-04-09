@@ -12,8 +12,6 @@ reply_keyboard_income_period = [['1 неделя ', '2 недели '],
                                 ['Месяц ']]
 markup_income_period = ReplyKeyboardMarkup(reply_keyboard_income_period, one_time_keyboard=False)
 
-reply_keyboard_add_income = [['Добавить доход:']]
-markup_add_income = ReplyKeyboardMarkup(reply_keyboard_add_income, one_time_keyboard=False)
 
 
 def add_income_bd(update, context):
@@ -28,16 +26,11 @@ def add_income_bd(update, context):
 
 async def add_income(update, context):
     await update.message.reply_text(
-        "Внесите доход",
-        reply_markup=markup_add_income
-    )
+        "Внесите доход")
     return 1
 
 
 async def add_income_answer(update, context):
-    # Это ответ на первый вопрос.
-    # Мы можем использовать его во втором вопросе.
-    # context.user_data['income'] = int(update.message.text)
     await update.message.reply_text(
         f"Доход внесен в базу данных")
     add_income_bd(update, context)
