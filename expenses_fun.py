@@ -1,6 +1,6 @@
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
-from datetime import datetime
+import datetime
 from data import db_session
 from data.statistics import Statistic
 from start_fun import markup
@@ -23,14 +23,6 @@ async def show_expenses(update, context):
     )
 
 
-def get_id(name_table, name):
-    db_sess = db_session.create_session()
-    res = db_sess.query(name_table.id).filter(name_table.name.like(name)).first()
-    print('h')
-    db_sess.close()
-    return res
-
-
 def staistics_expenses_bd(update, context):
     db_sess = db_session.create_session()
     user_ = update.effective_user
@@ -42,7 +34,6 @@ def staistics_expenses_bd(update, context):
 
     for i in moneys:
         res.append(f'{i[0]} - дата {str(i[1])[:10]}')
-        print(i)
     moneys = '\n'.join(res)
     return moneys
 
