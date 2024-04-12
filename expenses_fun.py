@@ -2,7 +2,6 @@ from telegram import ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
 import datetime
 from data import db_session
-from data.statistics import Statistic
 from start_fun import markup
 from data.users import User
 from data.expenses import Expense
@@ -21,6 +20,43 @@ async def show_expenses(update, context):
         "Выбери период, за который хочешь посмотреть расходы",
         reply_markup=markup_show_expenses
     )
+    return 1
+
+
+def show_expenses_bd(update, context):
+    db_sess = db_session.create_session()
+    user_ = update.effective_user
+    cur_user = db_sess.query(User).filter(User.name.like(user_.id)).first()
+    buttons = db_sess.query(Statistic.name).all()
+    name_cat = []
+    for i in buttons:
+        name_cat.append(i[0])
+    if update.message.text == '1 неделя':
+        need_date = datetime.datetime.now() - datetime.timedelta(days=7)
+    elif update.message.text == '2 недели':
+        need_date = datetime.datetime.now() - datetime.timedelta(days=14)
+    elif update.message.text == 'Месяц':
+        need_date = datetime.datetime.now() - datetime.timedelta(days=30)
+    else:
+        return 'ошибка'
+
+    moneys = db_sess.query(Expense.money, Expense.date, Expense.statistics_id).filter(
+        Expense.date >= need_date).filter(
+        Expense.user == cur_user).all()
+    res = []
+    for i in moneys:
+        res.append(f'{i[0]} - {name_cat[i[2] - 1]} - дата {str(i[1])[:10]}')
+    moneys = '\n'.join(res)
+    return moneys
+
+
+async def show_expenses_answer(update, context):
+    result = show_expenses_bd(update, context)
+    await update.message.reply_text(
+        result,
+        reply_markup=markup
+    )
+    return ConversationHandler.END
 
 
 def staistics_expenses_bd(update, context):
@@ -105,5 +141,5 @@ async def add_expense_answer(update, context):
 
 reply_keyboard_expenses = [['Статистика расходов', 'Посмотреть расходы', 'Добавить расходы']]
 markup_timer_expenses = ReplyKeyboardMarkup(reply_keyboard_expenses, one_time_keyboard=True)
-reply_keyboard_show_expenses = [['1 неделя', '2 недели']]
-markup_show_expenses = ReplyKeyboardMarkup(reply_keyboard_show_expenses, one_time_keyboard=True)
+reply_keyboard_show_expenses = [['1 неделя', '2 недели'], ['Месяц']]
+markup_show_expenses = ReplyKeyboardMarkup(reply_keyboard_show_expenses)
