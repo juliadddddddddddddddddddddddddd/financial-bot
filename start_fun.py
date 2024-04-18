@@ -25,6 +25,6 @@ async def start(update, context):
     add_user(update, context)
 
 
-reply_keyboard = [['Доходы', 'Расходы'],
+reply_keyboard = [['Доходы', 'Расходы', 'Что-то'],
                   ['Выбрать музыкальное сопровождение', 'Совет по финансам от нейросити']]
 markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=False)

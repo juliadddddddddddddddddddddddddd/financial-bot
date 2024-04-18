@@ -1,10 +1,11 @@
 import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
 from data import db_session
-from incomes_fun import income, income_period, add_income, add_income_answer
+from incomes_fun import income, income_period, add_income, add_income_answer, show_income_answer
 from start_fun import start
 from expenses_fun import expenses, staistics_expenses, show_expenses, chose_category, add_expense, add_expense_answer, \
     staistics_expenses_answer, show_expenses_answer
+from  files_fun import files_fun, files_fun_m, files_fun_m_answer
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
@@ -19,7 +20,7 @@ async def stop(update, context):
 
 income_had = MessageHandler(filters.Text(['Доходы']), income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expenses)
-income_period_had = MessageHandler(filters.Text(['Доходы за определенный период']), income_period)
+files_had = MessageHandler(filters.Text(['Что-то']), files_fun)
 conv_handler_incomes = ConversationHandler(
     entry_points=[MessageHandler(filters.Text(['Добавить доход']), add_income)],
     states={
@@ -47,18 +48,33 @@ conv_show_expense = ConversationHandler(
         1: [MessageHandler(filters.TEXT, show_expenses_answer)]},
     fallbacks=[CommandHandler('stop', stop)]
 )
+conv_income_period = ConversationHandler(
+    entry_points=[MessageHandler(filters.Text(['Доходы за определенный период']), income_period)],
+    states={
+        1: [MessageHandler(filters.TEXT, show_income_answer)]},
+    fallbacks=[CommandHandler('stop', stop)]
+)
+
+conv_music = ConversationHandler(
+    entry_points=[MessageHandler(filters.Text(['Выбрать музыкальное сопровождение']), files_fun_m)],
+    states={
+        1: [MessageHandler(filters.TEXT, files_fun_m_answer)]},
+    fallbacks=[CommandHandler('stop', stop)]
+)
 
 
 def main():
     application = Application.builder().token('6776095239:AAEuFXOBSoy-LdLdIDWywjgfJpVze0H_3Q8').build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(income_period_had)
+    application.add_handler(conv_income_period)
     application.add_handler(income_had)
     application.add_handler(expense_had)
     application.add_handler(conv_handler_incomes)
     application.add_handler(conv_handler_expense)
     application.add_handler(conv_staistics_expenses)
     application.add_handler(conv_show_expense)
+    application.add_handler(files_had)
+    application.add_handler(conv_music)
     db_session.global_init("db/money.db")
     application.run_polling()
 
