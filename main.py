@@ -15,7 +15,7 @@ async def stop(update, context):
 
 
 conv_music = ConversationHandler(
-    entry_points=[MessageHandler(filters.Text(['Выбрать музыкальное сопровождение']), files_fun_m)],
+    entry_points=[MessageHandler(filters.Text(['Загрузить фото']), files_fun_m)],
     states={
         1: [MessageHandler(filters.TEXT, files_fun_m_answer)]},
     fallbacks=[CommandHandler('stop', stop)]
