@@ -1,7 +1,7 @@
 import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
 from start_fun import start
-from files_fun import files_fun_m, files_fun_m_answer
+from files_fun import get_photo, upload_photo
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
@@ -15,12 +15,11 @@ async def stop(update, context):
 
 
 conv_music = ConversationHandler(
-    entry_points=[MessageHandler(filters.Text(['Загрузить фото']), files_fun_m)],
+    entry_points=[MessageHandler(filters.Text(['Загрузить фото']), get_photo)],
     states={
-        1: [MessageHandler(filters.TEXT, files_fun_m_answer)]},
+        1: [MessageHandler(filters.Document.Category("image"), upload_photo)]},
     fallbacks=[CommandHandler('stop', stop)]
 )
-
 
 def main():
     application = Application.builder().token('7030384710:AAHMZq8L3MqlclUi5WE7QCeeVgWcan8SOJ4').build()
