@@ -5,7 +5,7 @@ from incomes_fun import income, income_period, add_income, add_income_answer, sh
 from start_fun import start
 from expenses_fun import expenses, staistics_expenses, show_expenses, chose_category, add_expense, add_expense_answer, \
     staistics_expenses_answer, show_expenses_answer
-from  files_fun import files_fun, files_fun_m, files_fun_m_answer
+from files_fun import get_file, upload_photo, get_photo
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
@@ -20,7 +20,7 @@ async def stop(update, context):
 
 income_had = MessageHandler(filters.Text(['Доходы']), income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expenses)
-files_had = MessageHandler(filters.Text(['Что-то']), files_fun)
+send_photo = MessageHandler(filters.Text(['Отправить фото']), get_photo)
 conv_handler_incomes = ConversationHandler(
     entry_points=[MessageHandler(filters.Text(['Добавить доход']), add_income)],
     states={
@@ -55,10 +55,10 @@ conv_income_period = ConversationHandler(
     fallbacks=[CommandHandler('stop', stop)]
 )
 
-conv_music = ConversationHandler(
-    entry_points=[MessageHandler(filters.Text(['Выбрать музыкальное сопровождение']), files_fun_m)],
+conv_upload_document = ConversationHandler(
+    entry_points=[MessageHandler(filters.Text(['Загрузить фото']), get_file)],
     states={
-        1: [MessageHandler(filters.TEXT, files_fun_m_answer)]},
+        1: [MessageHandler(filters.Document.Category("image"), upload_photo)]},
     fallbacks=[CommandHandler('stop', stop)]
 )
 
@@ -73,8 +73,8 @@ def main():
     application.add_handler(conv_handler_expense)
     application.add_handler(conv_staistics_expenses)
     application.add_handler(conv_show_expense)
-    application.add_handler(files_had)
-    application.add_handler(conv_music)
+    application.add_handler(send_photo)
+    application.add_handler(conv_upload_document)
     db_session.global_init("db/money.db")
     application.run_polling()
 
