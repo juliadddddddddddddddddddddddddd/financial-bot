@@ -1,7 +1,7 @@
 import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
 from data import db_session
-from incomes_fun import income, income_period, add_income, add_income_answer, show_income_answer
+from incomes_fun import Incomes
 from start_fun import start
 from expenses_fun import expenses, staistics_expenses, show_expenses, chose_category, add_expense, add_expense_answer, \
     staistics_expenses_answer, show_expenses_answer
@@ -16,16 +16,16 @@ logger = logging.getLogger(__name__)
 async def stop(update, context):
     await update.message.reply_text("Всего доброго!")
     return ConversationHandler.END
-
+incomes = Incomes()
 music = Music()
 random_photo = Random_photo()
-income_had = MessageHandler(filters.Text(['Доходы']), income)
+income_had = MessageHandler(filters.Text(['Доходы']), incomes.income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expenses)
 files_had = MessageHandler(filters.Text(['Что-то']), random_photo.files_fun)
 conv_handler_incomes = ConversationHandler(
-    entry_points=[MessageHandler(filters.Text(['Добавить доход']), add_income)],
+    entry_points=[MessageHandler(filters.Text(['Добавить доход']), incomes.add_income)],
     states={
-        1: [MessageHandler(filters.TEXT, add_income_answer)]},
+        1: [MessageHandler(filters.TEXT, incomes.add_income_answer)]},
     fallbacks=[CommandHandler('stop', stop)]
 )
 conv_handler_expense = ConversationHandler(
@@ -50,9 +50,9 @@ conv_show_expense = ConversationHandler(
     fallbacks=[CommandHandler('stop', stop)]
 )
 conv_income_period = ConversationHandler(
-    entry_points=[MessageHandler(filters.Text(['Доходы за определенный период']), income_period)],
+    entry_points=[MessageHandler(filters.Text(['Доходы за определенный период']), incomes.income_period)],
     states={
-        1: [MessageHandler(filters.TEXT, show_income_answer)]},
+        1: [MessageHandler(filters.TEXT, incomes.show_income_answer)]},
     fallbacks=[CommandHandler('stop', stop)]
 )
 
