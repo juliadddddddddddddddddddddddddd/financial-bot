@@ -12,7 +12,7 @@ async def get_photo(update, context):
 async def upload_photo(update, context):
     file_id = update.message.document.file_id
     new_file = await context.bot.get_file(file_id)
-    await new_file.download_to_drive()
+    await new_file.download_to_drive(custom_path="./dir/test.webp")
     res.append(new_file)
     print(res)
 
@@ -34,5 +34,4 @@ async def upload_photo(update, context):
     # file_name = fr"C:\Users\Юлия\PycharmProjects\pythonProject4\sources\{file}"
     # await file.download_to_drive(custom_path=file_name)
     # res.append(file_name)
-
 
