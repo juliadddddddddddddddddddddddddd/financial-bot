@@ -11,12 +11,10 @@ async def get_file(update, context):
 async def upload_photo(update, context):
     file_id = update.message.document.file_id
     new_file = await context.bot.get_file(file_id)
-    await new_file.download_to_drive(custom_path=f"./sources/{file_id}.jpg")
+    await new_file.download_to_drive(custom_path=f"./sources/upload_photo/{file_id}.jpg")
     res.append(update.message.document.file_id)
     await update.message.reply_text(
         'Фото успешно загружено')
-
-
 
 def file_get():
     file = open(f'sources/{random.choice(res)}.jpg', 'rb')
