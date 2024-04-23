@@ -5,7 +5,7 @@ from incomes_fun import income, income_period, add_income, add_income_answer, sh
 from start_fun import start
 from expenses_fun import expenses, staistics_expenses, show_expenses, chose_category, add_expense, add_expense_answer, \
     staistics_expenses_answer, show_expenses_answer
-from  files_fun import files_fun, files_fun_m, files_fun_m_answer
+from files_fun import files_fun, files_fun_m, files_fun_m_answer, get_photo, upload_photo
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
@@ -62,6 +62,13 @@ conv_music = ConversationHandler(
     fallbacks=[CommandHandler('stop', stop)]
 )
 
+conv_files = ConversationHandler(
+    entry_points=[MessageHandler(filters.Text(['Загрузить фото']), get_photo)],
+    states={
+        1: [MessageHandler(filters.Document.Category("image"), upload_photo)]},
+    fallbacks=[CommandHandler('stop', stop)]
+)
+
 
 def main():
     application = Application.builder().token('6776095239:AAEuFXOBSoy-LdLdIDWywjgfJpVze0H_3Q8').build()
@@ -75,6 +82,7 @@ def main():
     application.add_handler(conv_show_expense)
     application.add_handler(files_had)
     application.add_handler(conv_music)
+    application.add_handler(conv_files)
     db_session.global_init("db/money.db")
     application.run_polling()
 
