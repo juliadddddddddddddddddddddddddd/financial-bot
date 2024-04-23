@@ -17,7 +17,7 @@ async def upload_photo(update, context):
         'Фото успешно загружено')
 
 def file_get():
-    file = open(f'sources/{random.choice(res)}.jpg', 'rb')
+    file = open(f'sources/upload_photo/{random.choice(res)}.jpg', 'rb')
     return file
 
 async def get_photo(update, context):
