@@ -5,7 +5,8 @@ from incomes_fun import income, income_period, add_income, add_income_answer, sh
 from start_fun import start
 from expenses_fun import expenses, staistics_expenses, show_expenses, chose_category, add_expense, add_expense_answer, \
     staistics_expenses_answer, show_expenses_answer
-from files_fun import files_fun, files_fun_m, files_fun_m_answer, get_photo, upload_photo, get_file
+from files_fun import  get_photo, upload_photo, get_file
+from entertainments import files_fun, files_fun_m, files_fun_m_answer
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
