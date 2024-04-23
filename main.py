@@ -5,9 +5,8 @@ from incomes_fun import income, income_period, add_income, add_income_answer, sh
 from start_fun import start
 from expenses_fun import expenses, staistics_expenses, show_expenses, chose_category, add_expense, add_expense_answer, \
     staistics_expenses_answer, show_expenses_answer
-from files_fun import  get_photo, upload_photo, get_file
-from entertainments import files_fun, files_fun_m, files_fun_m_answer
-
+from files_fun import get_photo, upload_photo, get_file
+from entertainments import Music, Random_photo
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
 )
@@ -18,10 +17,11 @@ async def stop(update, context):
     await update.message.reply_text("Всего доброго!")
     return ConversationHandler.END
 
-
+music = Music()
+random_photo = Random_photo()
 income_had = MessageHandler(filters.Text(['Доходы']), income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expenses)
-files_had = MessageHandler(filters.Text(['Что-то']), files_fun)
+files_had = MessageHandler(filters.Text(['Что-то']), random_photo.files_fun)
 conv_handler_incomes = ConversationHandler(
     entry_points=[MessageHandler(filters.Text(['Добавить доход']), add_income)],
     states={
@@ -57,9 +57,9 @@ conv_income_period = ConversationHandler(
 )
 
 conv_music = ConversationHandler(
-    entry_points=[MessageHandler(filters.Text(['Выбрать музыкальное сопровождение']), files_fun_m)],
+    entry_points=[MessageHandler(filters.Text(['Выбрать музыкальное сопровождение']), music.files_fun_m)],
     states={
-        1: [MessageHandler(filters.TEXT, files_fun_m_answer)]},
+        1: [MessageHandler(filters.TEXT, music.files_fun_m_answer)]},
     fallbacks=[CommandHandler('stop', stop)]
 )
 
