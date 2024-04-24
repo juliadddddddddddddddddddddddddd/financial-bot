@@ -1,6 +1,7 @@
 from telegram import ReplyKeyboardMarkup
 
 
+
 async def start(update, context):
     await update.message.reply_text(
         "Я бот-помощник для контроля финансов. Выбери опцию.",
