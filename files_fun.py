@@ -3,8 +3,7 @@ import random
 import datetime
 
 res = []
-
-async def get_photo(update, context):
+async def get_file(update, context):
     await update.message.reply_text(
         'Загрузите фото')
     return 1
@@ -12,26 +11,19 @@ async def get_photo(update, context):
 async def upload_photo(update, context):
     file_id = update.message.document.file_id
     new_file = await context.bot.get_file(file_id)
-    await new_file.download_to_drive(custom_path="./dir/test.webp")
-    res.append(new_file)
-    print(res)
+    await new_file.download_to_drive(custom_path=f"./sources/upload_photo/{file_id}.jpg")
+    res.append(update.message.document.file_id)
+    await update.message.reply_text(
+        'Фото успешно загружено')
+    return ConversationHandler.END
 
-    # НЕ РАБОТАЕТ!
-    # new_file = await update.message.effective_attachment.get_file()
-    # file_name = fr"C:\Users\Юлия\PycharmProjects\pythonProject4\sources\{new_file}"
-    # await new_file.download_to_drive(file_name)
+def file_get():
+    file = open(f'sources/upload_photo/{random.choice(res)}.jpg', 'rb')
+    return file
 
-
-    # НЕ РАБОТАЕТ!
-    # new_file = await update.message.effective_attachment[-1].get_file()
-    # file_name = fr"C:\Users\Юлия\PycharmProjects\pythonProject4\sources\{new_file}"
-    # await new_file.download_to_drive(file_name)
-    # res.append(file_name)
-    # print(res)
-
-    # НЕ РАБОТАЕТ!
-    # file = await context.bot.get_file(update.message.photo)
-    # file_name = fr"C:\Users\Юлия\PycharmProjects\pythonProject4\sources\{file}"
-    # await file.download_to_drive(custom_path=file_name)
-    # res.append(file_name)
-
+async def get_photo(update, context):
+    if len(res) != 0:
+        await update.message.reply_photo(file_get(), has_spoiler=True)
+    else:
+        await update.message.reply_text(
+            'Пожалуйста, загрузите сначала фото')
