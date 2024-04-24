@@ -13,9 +13,9 @@ class Expenses:
             [['Статистика расходов', 'Посмотреть расходы', 'Добавить расходы']],
             one_time_keyboard=True)
         self.markup_show_expenses = ReplyKeyboardMarkup([['1 неделя', '2 недели'], ['Месяц']])
-        self.markup = ReplyKeyboardMarkup([['Доходы', 'Расходы', 'Что-то'],
-                                           ['Выбрать музыкальное сопровождение', 'Совет по финансам от нейросити'],
-                                           ['Загрузить фото', 'Отправить фото', ]], one_time_keyboard=False)
+        self.markup = ReplyKeyboardMarkup([['Доходы', 'Расходы'],
+                                           ['Загрузить фото', 'Отправить фото'], ['Совет по финансам от нейросити'],
+                                           ['Что-то'], ['Выбрать музыкальное сопровождение']], one_time_keyboard=False)
 
     async def expenses(self, update, context):
         await update.message.reply_text(

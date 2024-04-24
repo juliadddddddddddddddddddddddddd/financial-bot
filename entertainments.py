@@ -7,9 +7,9 @@ from telegram.ext import ConversationHandler
 class Music:
     def __init__(self):
         self.markup_f = ReplyKeyboardMarkup([['1'], ['2'], ['3'], ['4']], one_time_keyboard=False)
-        self.markup = ReplyKeyboardMarkup([['Доходы', 'Расходы', 'Что-то'],
-                                           ['Выбрать музыкальное сопровождение', 'Совет по финансам от нейросити'],
-                                           ['Загрузить фото', 'Отправить фото', ]], one_time_keyboard=False)
+        self.markup = ReplyKeyboardMarkup([['Доходы', 'Расходы'],
+                                           ['Загрузить фото', 'Отправить фото'], ['Совет по финансам от нейросити'],
+                                           ['Что-то'], ['Выбрать музыкальное сопровождение']], one_time_keyboard=False)
 
     async def files_fun_m(self, update, context):
         await update.message.reply_text(
