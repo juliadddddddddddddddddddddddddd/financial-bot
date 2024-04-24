@@ -28,6 +28,7 @@ start = Start()
 income_had = MessageHandler(filters.Text(['Доходы']), incomes.income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expense.expenses)
 files_had = MessageHandler(filters.Text(['Что-то']), random_photo.files_fun)
+photo_had = MessageHandler(filters.Text(['Отправить фото']), file.get_photo)
 conv_handler_incomes = ConversationHandler(
     entry_points=[MessageHandler(filters.Text(['Добавить доход']), incomes.add_income)],
     states={
@@ -83,6 +84,7 @@ def main():
     application.add_handler(conv_income_period)
     application.add_handler(income_had)
     application.add_handler(expense_had)
+    application.add_handler(photo_had)
     application.add_handler(conv_handler_incomes)
     application.add_handler(conv_handler_expense)
     application.add_handler(conv_staistics_expenses)
