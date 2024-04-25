@@ -59,6 +59,7 @@ class Expenses:
 
     async def show_expenses_answer(self, update, context):
         result = self.show_expenses_bd(update, context)
+        result = result if result else 'Нет расходов за данный период'
         await update.message.reply_text(
             result,
             reply_markup=self.markup
@@ -81,6 +82,7 @@ class Expenses:
 
     async def staistics_expenses_answer(self, update, context):
         j = self.staistics_expenses_bd(update, context)
+        j = j if j else 'Нет расходов по этой категории'
         await update.message.reply_text(
             j,
             reply_markup=self.markup

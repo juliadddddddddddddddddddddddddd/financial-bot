@@ -76,6 +76,7 @@ class Incomes:
 
     async def show_income_answer(self, update, context):
         result = self.show_income_bd(update, context)
+        result = result if result else 'Нет доходов за данный период'
         await update.message.reply_text(
             result,
             reply_markup=self.markup

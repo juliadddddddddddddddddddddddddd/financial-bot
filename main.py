@@ -20,6 +20,10 @@ async def stop(update, context):
     return ConversationHandler.END
 
 
+async def mistske(update, context):
+    await update.message.reply_text("Извините, я вас не понимаю")
+
+
 api = Api()
 incomes = Incomes()
 music = Music()
@@ -28,6 +32,7 @@ expense = Expenses()
 file = Files()
 start = Start()
 
+mistske_had = MessageHandler(filters.TEXT, mistske)
 income_had = MessageHandler(filters.Text(['Доходы']), incomes.income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expense.expenses)
 files_had = MessageHandler(filters.Text(['Если деньги кончились']), random_photo.files_fun)
@@ -103,6 +108,7 @@ def main():
     application.add_handler(files_had)
     application.add_handler(conv_music)
     application.add_handler(conv_files)
+    application.add_handler(mistske_had)
     db_session.global_init("db/money.db")
     application.run_polling()
 
