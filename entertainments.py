@@ -6,10 +6,12 @@ from telegram.ext import ConversationHandler
 
 class Music:
     def __init__(self):
-        self.markup_f = ReplyKeyboardMarkup([['1'], ['2'], ['3'], ['4']], one_time_keyboard=False)
+        self.markup_f = ReplyKeyboardMarkup([['1'], ['2'], ['3'], ['4'], ['5'], ['6'], ['7'], ['8'], ['9'], ['10']],
+                                            one_time_keyboard=False)
         self.markup = ReplyKeyboardMarkup([['Доходы', 'Расходы'],
-                                           ['Загрузить фото', 'Отправить фото'], ['Совет по финансам от нейросити'],
-                                           ['Что-то'], ['Выбрать музыкальное сопровождение']], one_time_keyboard=False)
+                                           ['Загрузить фото', 'Отправить фото'], ['Как заработать деньги?'],
+                                           ['Если деньги кончились'], ['Выбрать музыкальное сопровождение']],
+                                          one_time_keyboard=False)
 
     async def files_fun_m(self, update, context):
         await update.message.reply_text(
@@ -29,5 +31,5 @@ class Random_photo:
         await update.message.reply_photo(self.file_geto(), has_spoiler=True)
 
     def file_geto(self):
-        file = open(f'sources/pictures/{randint(1, 11)}.jpeg', 'rb')
+        file = open(f'sources/pictures/{randint(1, 14)}.jpeg', 'rb')
         return file

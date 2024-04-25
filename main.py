@@ -1,5 +1,7 @@
 import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
+
+from api import Api
 from data import db_session
 from incomes_fun import Incomes
 from start_fun import Start
@@ -18,6 +20,7 @@ async def stop(update, context):
     return ConversationHandler.END
 
 
+api = Api()
 incomes = Incomes()
 music = Music()
 random_photo = Random_photo()
@@ -27,7 +30,7 @@ start = Start()
 
 income_had = MessageHandler(filters.Text(['Доходы']), incomes.income)
 expense_had = MessageHandler(filters.Text(['Расходы']), expense.expenses)
-files_had = MessageHandler(filters.Text(['Что-то']), random_photo.files_fun)
+files_had = MessageHandler(filters.Text(['Если деньги кончились']), random_photo.files_fun)
 photo_had = MessageHandler(filters.Text(['Отправить фото']), file.get_photo)
 conv_handler_incomes = ConversationHandler(
     entry_points=[MessageHandler(filters.Text(['Добавить доход']), incomes.add_income)],
@@ -77,6 +80,13 @@ conv_files = ConversationHandler(
     fallbacks=[CommandHandler('stop', stop)]
 )
 
+conv_books = ConversationHandler(
+    entry_points=[MessageHandler(filters.Text(['Как заработать деньги?']), api.category_of_books)],
+    states={
+        1: [MessageHandler(filters.TEXT, api.get_books)]},
+    fallbacks=[CommandHandler('stop', stop)]
+)
+
 
 def main():
     application = Application.builder().token('6776095239:AAEuFXOBSoy-LdLdIDWywjgfJpVze0H_3Q8').build()
@@ -85,6 +95,7 @@ def main():
     application.add_handler(income_had)
     application.add_handler(expense_had)
     application.add_handler(photo_had)
+    application.add_handler(conv_books)
     application.add_handler(conv_handler_incomes)
     application.add_handler(conv_handler_expense)
     application.add_handler(conv_staistics_expenses)

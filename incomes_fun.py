@@ -9,8 +9,9 @@ import datetime
 class Incomes:
     def __init__(self):
         self.markup = ReplyKeyboardMarkup([['Доходы', 'Расходы'],
-                                           ['Загрузить фото', 'Отправить фото'], ['Совет по финансам от нейросити'],
-                                           ['Что-то'], ['Выбрать музыкальное сопровождение']], one_time_keyboard=False)
+                                           ['Загрузить фото', 'Отправить фото'], ['Как заработать деньги?'],
+                                           ['Если деньги кончились'], ['Выбрать музыкальное сопровождение']],
+                                          one_time_keyboard=False)
         self.markup_income = ReplyKeyboardMarkup([['Добавить доход', 'Доходы за определенный период']],
                                                  one_time_keyboard=True)
         self.markup_income_period = ReplyKeyboardMarkup([['1 неделя ', '2 недели '],

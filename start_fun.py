@@ -6,8 +6,8 @@ from data import db_session
 class Start:
     def __init__(self):
         self.markup = ReplyKeyboardMarkup([['Доходы', 'Расходы'],
-                                           ['Загрузить фото', 'Отправить фото'], ['Совет по финансам от нейросити'],
-                                           ['Что-то'], ['Выбрать музыкальное сопровождение']], one_time_keyboard=False)
+                                           ['Загрузить фото', 'Отправить фото'], ['Как заработать деньги?'],
+                                           ['Если деньги кончились'], ['Выбрать музыкальное сопровождение']], one_time_keyboard=False)
 
     def add_user(self, update, context):
         db_sess = db_session.create_session()
